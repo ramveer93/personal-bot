@@ -6,6 +6,30 @@ Built using the [OpenAI Agents SDK](https://github.com/openai/openai-python), th
 
 ## Architecture
 
+```mermaid
+flowchart TD
+    User([User Request]) --> API[FastAPI /api/chat Endpoint]
+    API --> Orchestrator[Orchestrator Stream]
+    Orchestrator --> ScopeAgent{Scope Agent}
+    
+    ScopeAgent -- "Unrelated Query" --> Reject([Graceful Rejection])
+    ScopeAgent -- "Career / Experience Query" --> DomainExpert(Domain Expert)
+    ScopeAgent -- "Wants to Connect / Hire" --> DBWriter(DB Writer)
+    
+    DomainExpert --> PDFTool[[pdf_reader tool]]
+    DomainExpert --> WebTool[[webscraper tool]]
+    PDFTool -.-> Drive[(Google Drive Resume)]
+    WebTool -.-> Web[(LinkedIn/GitHub)]
+    
+    DBWriter --> WriteTool[[writetodb tool]]
+    WriteTool -.-> SQLite[(local.db Visitors Table)]
+    
+    DomainExpert -- "Direct Tool Use" --> WriteTool
+    
+    DomainExpert --> SSE([SSE Token Stream to UI])
+    DBWriter --> SSE
+    Reject --> SSE
+```
 The backend utilizes three specialized AI agents working in tandem:
 
 1. **Scope Agent (The Router)**
