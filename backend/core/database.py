@@ -8,18 +8,29 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-LIBSQL_URL = os.getenv("LIBSQL_URL", "local.db")
-# Strip file:./ if present for local sqlite usage
-db_path = LIBSQL_URL.replace("file:./", "") if "file:./" in LIBSQL_URL else LIBSQL_URL
+LIBSQL_URL = os.getenv("LIBSQL_URL", "file:./local.db")
+LIBSQL_AUTH_TOKEN = os.getenv("LIBSQL_AUTH_TOKEN", "")
 
 def get_connection():
-    # In a real Turso/libsql environment with vector support, we'd use `libsql_experimental.connect`
-    # For now, we will use standard sqlite3 for local development and table creation.
-    # We will assume a basic structure.
-    conn = sqlite3.connect(db_path, check_same_thread=False)
-    conn.row_factory = sqlite3.Row
+    """
+    Returns a connection to either a remote Turso database or a local SQLite file.
+    """
+    is_remote = LIBSQL_URL.startswith("libsql://") or LIBSQL_URL.startswith("https://") or LIBSQL_URL.startswith("wss://")
+    
+    if is_remote:
+        import libsql_experimental
+        # Use Turso remote connection
+        conn = libsql_experimental.connect(
+            database=LIBSQL_URL, 
+            auth_token=LIBSQL_AUTH_TOKEN
+        )
+    else:
+        # Strip file:./ if present for local sqlite usage
+        db_path = LIBSQL_URL.replace("file:./", "") if "file:./" in LIBSQL_URL else LIBSQL_URL
+        conn = sqlite3.connect(db_path, check_same_thread=False)
+        conn.row_factory = sqlite3.Row
+        
     return conn
-
 def init_db():
     conn = get_connection()
     cursor = conn.cursor()
