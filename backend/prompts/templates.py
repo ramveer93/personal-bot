@@ -19,7 +19,7 @@ def domain_expert_instructions()->str:
     # Safely load the allowed domains from the env file
     allowed_domains_str = os.getenv("ALLOWED_SCRAPE_DOMAINS", "{}")
     try:
-        allowed_domains = json.loads(allowed_domains_str)
+        allowed_domains = json.loads(allowed_domains_str.strip("'"))
     except:
         allowed_domains = {}
         
