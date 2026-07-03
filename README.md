@@ -1,5 +1,13 @@
 # Personal Bot Backend (Digital Twin)
 
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI_Agents_SDK-412991?style=flat&logo=openai&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat&logo=sqlite&logoColor=white)
+![SSE](https://img.shields.io/badge/SSE_Streaming-FF6600?style=flat)
+
+🔗 **[Live Demo (chat widget)](https://profile-64ef8.firebaseapp.com/)** · **[Portfolio](https://profile-64ef8.firebaseapp.com/)** · **[LinkedIn](https://www.linkedin.com/in/ramveer7up/)**
+
 This is a FastAPI-based backend that powers the **Digital Twin AI Assistant** for Ramveer Singh's personal portfolio. 
 
 Built using the [OpenAI Agents SDK](https://github.com/openai/openai-python), this project utilizes a **Multi-Agent Orchestration Architecture** to intelligently route queries, read external documents (like Resumes and GitHub profiles), and securely save contact information into a local SQLite database—all while fully supporting real-time Server-Sent Events (SSE) streaming!
@@ -108,3 +116,11 @@ To view captured emails, run:
 ```bash
 sqlite3 local.db "SELECT * FROM visitors;"
 ```
+
+---
+
+<p align="center">
+  Built by <a href="https://profile-64ef8.firebaseapp.com/">Ramveer Singh</a> · 
+  <a href="https://www.linkedin.com/in/ramveer7up/">LinkedIn</a> · 
+  <a href="https://github.com/ramveer93">GitHub</a>
+</p>
